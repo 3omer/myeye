@@ -19,7 +19,7 @@ class RetinaObjectDetector(ObjectDetection):
         self.loadModel()
         self.set_boxes_color(anotation_color)
     
-    def anotate_image(self, input_path, output_dir, filename=None, filename_gen=None, min_prop=40):
+    def anotate_image(self, input_path, output_dir, filename=None, filename_gen=None, min_prop=60):
         """
         :param input_path: absolute image path to read
         :param output_dir: output directory to save annotated image in

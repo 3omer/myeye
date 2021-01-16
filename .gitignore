@@ -3,3 +3,7 @@ worker/venv
 node_modules
 *.h5
 __pycache__/
+*/send.py
+*/consumeQu.py
+
+*/send.js
