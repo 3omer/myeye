@@ -8,7 +8,7 @@ execution_path = os.getcwd()
 def get_abs_path(relative_path):
     return os.path.join(os.path.dirname(__file__), relative_path)
 
-class RetinaObjectDetectore(ObjectDetection):
+class RetinaObjectDetector(ObjectDetection):
     
     _valid_ext = [".jpg", ".png", ] 
 
@@ -61,7 +61,7 @@ class RetinaObjectDetectore(ObjectDetection):
 def test():
     input_image = os.getcwd() + "/test2.jpg"
     output = "/home/omer/Desktop"
-    RetinaObjectDetectore().anotate_image(input_image, output)
+    RetinaObjectDetector().anotate_image(input_image, output)
     
 
 if __name__ == "__main__":
