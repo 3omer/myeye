@@ -5,44 +5,49 @@ from dotenv import load_dotenv
 from ObjectDetector import RetinaObjectDetector
 
 load_dotenv()
-PUBLIC_DIR = os.environ.get("PUBLIC_DIR")
-AMQP_URL = os.environ.get("AMQP_URL")
 
+AMQP_URL = os.environ.get("AMQP_URL")
 detector = RetinaObjectDetector()
 
 def on_message(channel, method_frame, header_frame, body):
     print(method_frame.delivery_tag)
-    print(body)
+
     payload = json.loads(body)
-    img_src = payload["imageSrc"]
-    print("source img:", img_src, "output dir:", PUBLIC_DIR)
     try:
-        detector.anotate_image(img_src, PUBLIC_DIR)
+        input_path = payload["inputPath"]
+        output_path = payload["outputPath"]
+        print("source img:", input_path, "output path:", output_path)
+        detector.annotate_image(input_path, output_path)
         print('done')
-    except Exception as e:
-        print("image processing failed: - ", e)
-    finally:
         channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
+    except Exception as e:
+        channel.basic_nack(delivery_tag=method_frame.delivery_tag, requeue=True)
+        print("image processing failed: - ", e)
+    finally:
+        pass
 
-def test():
-    input_image = os.getcwd() + "/worker/test2.jpg"
-    output = "/home/omer/Desktop"
-    RetinaObjectDetector().anotate_image(input_image, output)
+def test(input_image, output_dir):
+    input_image = input_image 
+    output = output_dir
+    detections = RetinaObjectDetector().anotate_image(input_image, output)
+    print(detections)
 
 
 if __name__ == "__main__":
     
-    if AMQP_URL is None:
-        raise ValueError("Make sure to define AMQP_URL env key")
 
+    if not AMQP_URL:
+        raise ValueError("Ensure you defined AMQP_URL as env key")
+    print(AMQP_URL[1:5])
     print("AMQP Connecting .. .")
     connection = pika.BlockingConnection(
         pika.connection.URLParameters(AMQP_URL)
         )
 
     channel = connection.channel()
-    channel.basic_consume('tasks', on_message)
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume('object_detection', on_message)
     print("AMQP is Connected")
 
     try:
