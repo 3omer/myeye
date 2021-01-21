@@ -9,4 +9,4 @@ WORKDIR /opt/app
 ADD . /opt/app
 EXPOSE $PORT
 
-CMD [ "npm",  "run", "dev"]
+CMD [ "node",  "./server/app.js"]
