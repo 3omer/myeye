@@ -1,5 +1,8 @@
 FROM nikolaik/python-nodejs:python3.6-nodejs14-slim
 
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+
 # python dep
 RUN pip3 install --upgrade pip setuptools virtualenv
 RUN pip3 install tensorflow==2.4.0
@@ -19,6 +22,6 @@ WORKDIR /opt/app/worker/models
 ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5 resnet.h5
 
 WORKDIR /opt/app
-RUN mkdir -p server/public/downloads server/upload 
+RUN mkdir -p server/public/downloads server/public/download server/upload 
 EXPOSE $PORT
 CMD [ "node",  "./server/app.js"]
