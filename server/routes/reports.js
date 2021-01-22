@@ -5,9 +5,11 @@ const toImageQueue = require("../rClient")
 
 // upload image
 router.post("/api/v1/requests", uploadImage, async (req, res, next) => {
+    console.log("File uploaded to", req.file.path);
+    
     const filename = req.file.filename
-    const absImgPath = path.join(process.cwd(), process.env.UPLOAD_DIR, filename)
-    const absOutPath = path.join(process.cwd(), process.env.DOWNLOAD_DIR, filename) 
+    const absImgPath = path.join(process.env.UPLOAD_DIR, filename)
+    const absOutPath = path.join(process.env.DOWNLOAD_DIR, filename) 
     const absDownloadLink = "bgek ya 5awl"
     try {
         await toImageQueue(absImgPath, absOutPath)
