@@ -13,7 +13,7 @@ RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app
 
 WORKDIR /opt/app
 ADD . /opt/app
-ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5 /opt/app/worker/ObjectDetector/model resnet.h5
+ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5 /opt/app/worker/ObjectDetector/models/ resnet.h5
 
 
 EXPOSE $PORT
