@@ -18,7 +18,7 @@ class RetinaObjectDetector(ObjectDetection):
         self.setModelTypeAsRetinaNet()
         self.setModelPath(get_abs_path(model_path))
         self.loadModel()
-        self.set_boxes_color(annotation_color)    
+        #self.set_boxes_color(annotation_color)    
     
     
     def annotate_image(self, input_path, output_path, output_dir=None, filename=None, filename_gen=None, min_prop=51):
