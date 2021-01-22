@@ -18,17 +18,6 @@ WORKDIR /opt/app/worker/models
 ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5 resnet.h5
 
 WORKDIR /opt/app
-
-# env 
-ENV PORT=8000
-ENV NODE_ENV=$(NODE_ENV)
-ENV UPLOAD_DIR= $(UPLOAD_DIR)
-ENV DOWNLOAD_DIR= $(DOWNLOAD_DIR)
-#Rabbitmq creds
-ENV AMQP_URL=$(AMQP_URL)
-ENV AMQP_PASSWORD=$(AMQP_PASSWORD)
-ENV QUEUE_NAME=$(QUEUE_NAME)
-
-
+RUN mkdir -p public/downloads upload 
 EXPOSE $PORT
 CMD [ "node",  "./server/app.js"]
