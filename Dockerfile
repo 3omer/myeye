@@ -15,16 +15,13 @@ RUN pip3 install python-dotenv
 # nodejs dep
 ADD /server/package.json /tmp/package.json
 RUN cd /tmp && npm install --only=production
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app
+RUN mkdir -p /opt/app/server && cp -a /tmp/node_modules /opt/app
 
 WORKDIR /opt/app
 ADD . /opt/app
 WORKDIR /opt/app/worker/ObjectDetector/models
 ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5 resnet.h5
 
-WORKDIR /opt/app
-
-RUN mkdir -p /opt/app/storage
-ENV STORAGE=/opt/app/storage
+WORKDIR /opt/app/server
 EXPOSE $PORT
-CMD [ "node",  "./server/app.js"]
+CMD [ "node",  "app.js"]
