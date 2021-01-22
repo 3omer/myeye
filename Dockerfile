@@ -1,4 +1,4 @@
-FROM nikolaik/python-nodejs:python3.6-nodejs14-alpine
+FROM nikolaik/python-nodejs:python3.6-nodejs15-slim
 
 # python dep
 RUN pip3 install --upgrade pip setuptools virtualenv
