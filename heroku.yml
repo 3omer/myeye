@@ -3,6 +3,7 @@ build:
     web: Dockerfile
 
 run:
+  web: run node app.js
   worker:
     command:
       - python ../worker/main.py
