@@ -1,6 +1,7 @@
 build:
     docker:
         web: Dockerfile
-        
-run:        
-    worker: python worker/main.py
+run:
+  worker:
+    command: python myworker.py
+    image: web
