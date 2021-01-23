@@ -24,3 +24,4 @@ ADD https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/res
 
 WORKDIR /opt/app/server
 EXPOSE $PORT
+CMD ["./run.sh"]
