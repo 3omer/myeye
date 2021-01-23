@@ -1,8 +1,9 @@
 build:
   docker:
     web: Dockerfile
+
 run:
-  web: node app.js
   worker:
-    command: python myworker.py
+    command:
+      - python ../worker/main.py
     image: web
