@@ -1,0 +1,201 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "process image",
+    "version": "1.0",
+    "description": "Upload images for objects detection",
+    "contact": {
+      "name": "Omar M. Osman",
+      "email": "omarosmandev@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "development"
+    }
+  ],
+  "paths": {
+    "/request": {
+      "post": {
+        "summary": "",
+        "operationId": "post-request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "requestId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "originalImageSrc": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "processedImageSrc": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "progress": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "requestId",
+                    "originalImageSrc",
+                    "processedImageSrc",
+                    "progress"
+                  ]
+                },
+                "examples": {
+                  "upload-success": {
+                    "value": {
+                      "requestId": "123456",
+                      "originalImageSrc": "http://host:port/upload/img-12345.jpg",
+                      "processedImageSrc": "http://host:port/download/img-12345.jpg",
+                      "progress": "pending"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Upload image for object detection service. The submited form most have one file with input set as*image* and the file is an image of type *jpg* or *png*.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "image"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "image": "myImage.jpg"
+                  }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": "the submited file input must have the name: image"
+        },
+        "tags": [
+          "request"
+        ]
+      }
+    },
+    "/result": {
+      "get": {
+        "summary": "result",
+        "tags": [
+          "result"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "requestId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "originalImageSrc": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "processedImageSrc": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "progress": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "requestId",
+                    "originalImageSrc",
+                    "processedImageSrc",
+                    "progress"
+                  ]
+                },
+                "examples": {
+                  "request-pending": {
+                    "value": {
+                      "requestId": "123456",
+                      "originalImageSrc": "http://host:port/upload/img-12345.jpg",
+                      "processedImageSrc": "http://host:port/download/img-12345.jpg",
+                      "progress": "pending"
+                    }
+                  },
+                  "request-done": {
+                    "value": {
+                      "requestId": "123456",
+                      "originalImageSrc": "http://host:port/upload/img-12345.jpg",
+                      "processedImageSrc": "http://host:port/download/img-12345.jpg",
+                      "progress": "done"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-result",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "requestId",
+            "description": "image processing request identifier"
+          }
+        ],
+        "description": "Get the result after uploading your image for object detection. By providing your *requestId* as a query parameter. The *progress* parameter provided in this endpoint response helps you to indicate when the service has successfully processed your image. The proccessed image URL will return you final image with object/s annotated only when the *progress* parameter is set to *done*.  "
+      },
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "tags": [
+    {
+      "name": "result"
+    },
+    {
+      "name": "request"
+    }
+  ]
+}
