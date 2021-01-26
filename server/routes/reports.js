@@ -4,7 +4,7 @@ const { uploadImage } = require("../middlewares/uploadManager")
 const toImageQueue = require("../rClient")
 
 // upload image
-router.post("/api/v1/requests", uploadImage, async (req, res, next) => {
+router.post("/api/v1/request", uploadImage, async (req, res, next) => {
     console.log("File uploaded to", req.file.path);
     
     const filename = req.file.filename
@@ -17,7 +17,9 @@ router.post("/api/v1/requests", uploadImage, async (req, res, next) => {
         
         res.json({
             msg: "Request accepted. Processing image may take several minutes",
-            "downloadLink": process.env.DOWNLOAD_DIR + filename
+            requestID: "",
+            originalImageSrc: "upload/", filename,
+            processedImageSrc:process.env.DOWNLOAD_DIR + filename
         })
     } catch (error) {
         console.error(error)
