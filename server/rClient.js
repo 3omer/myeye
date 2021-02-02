@@ -26,11 +26,13 @@ const getChannel = async () => {
  * Queue new image processing request
  * @param {string} orignalImageURL The worker will use this URL to get the image for processing
  * @param {string} uploadTo After processing, The worker upload the result image to this URL
+ * @param {string} filename
  */
-const queueImage = async (orignalImageURL, uploadTo) => {
+const queueImage = async (orignalImageURL, uploadTo, filename) => {
     payload = JSON.stringify({
         downloadFrom: orignalImageURL,
-        uploadTo
+        uploadTo,
+        filename
     })
 
     const channel = await getChannel()
