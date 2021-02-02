@@ -13,7 +13,8 @@ const sendToImageQueue = require("../rClient")
 function constructImageMeta(host, filename) {
     return {
         originalImageURL: 'http://' + path.join(host, 'upload', filename),
-        resultImageURL: 'http://' + path.join(host, 'download', filename)
+        resultImageURL: 'http://' + path.join(host, 'download', filename),
+        webhook: 'http://' + host +  '/webhooks/notify-progress'
     }
 }
 
@@ -25,7 +26,7 @@ router.post("/api/v1/request", uploadImage, async (req, res, next) => {
     const imageMeta = constructImageMeta(req.get("host"), filename)
 
     try {
-        await sendToImageQueue(imageMeta.originalImageURL, imageMeta.resultImageURL)
+        await sendToImageQueue(imageMeta.originalImageURL, imageMeta.webhook, filename)
         res.json({
             msg: "Request accepted. Processing image may take several minutes",
             requestID: "",
