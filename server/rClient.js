@@ -22,16 +22,15 @@ const getChannel = async () => {
 }
 
 
-// TODO: accept cb to handle full buffer case instead of rejecting
 /**
- * 
+ * Queue new image processing request
  * @param {string} orignalImageURL The worker will use this URL to get the image for processing
  * @param {string} uploadTo After processing, The worker upload the result image to this URL
  */
 const queueImage = async (orignalImageURL, uploadTo) => {
     payload = JSON.stringify({
-        inputPath: inputPath,
-        outputPath: outputPath
+        downloadFrom: orignalImageURL,
+        uploadTo
     })
 
     const channel = await getChannel()
@@ -43,6 +42,7 @@ const queueImage = async (orignalImageURL, uploadTo) => {
             console.log("queueImage()", "success");
             return resolve(isSent)
         }
+        // TODO: accept cb to handle full buffer case instead of rejecting
         reject(`Failed to send image ${inputPath} channel buffer is full. Create new channel or try latter`)
     })
 }

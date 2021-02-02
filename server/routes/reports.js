@@ -2,25 +2,36 @@ const path = require("path")
 const fs = require("fs")
 const router = require("express").Router()
 const { uploadImage } = require("../middlewares/uploadManager")
-const toImageQueue = require("../rClient")
+const sendToImageQueue = require("../rClient")
+
+/**
+ * build meta data of the image needed for further processing
+ * @param {string} host server address. for example 192.168.42.2:80
+ * @param {string} filename image filename
+ * @returns {object} imageMeta - orignalImageURL and resultImageURL 
+ */
+function constructImageMeta(host, filename) {
+    return {
+        originalImageURL: 'http://' + path.join(host, 'upload', filename),
+        resultImageURL: 'http://' + path.join(host, 'download', filename)
+    }
+}
 
 // upload image
 router.post("/api/v1/request", uploadImage, async (req, res, next) => {
     console.log("File uploaded to", req.file.path);
 
     const filename = req.file.filename
-    const absImgPath = path.join(process.env.UPLOAD_DIR, filename)
-    const absOutPath = path.join(process.env.DOWNLOAD_DIR, filename)
-    const absDownloadLink = "bgek ya 5awl"
-    try {
-        await toImageQueue(absImgPath, absOutPath)
-        console.log("New request pushed to Image Queue", absImgPath, absOutPath)
+    const imageMeta = constructImageMeta(req.get("host"), filename)
 
+    try {
+        await sendToImageQueue(imageMeta.originalImageURL, imageMeta.resultImageURL)
         res.json({
             msg: "Request accepted. Processing image may take several minutes",
             requestID: "",
-            originalImageSrc: "upload/", filename,
-            processedImageSrc: process.env.DOWNLOAD_DIR + filename
+            imageURL: imageMeta.originalImageURL,
+            resultURL: imageMeta.resultImageURL,
+            progress: "pending"
         })
     } catch (error) {
         console.error(error)
