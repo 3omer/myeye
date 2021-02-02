@@ -11,8 +11,7 @@ app.use(express.json())
 app.use(morgan("dev"))
 
 // setting static directory
-app.use('/download', express.static(path.join(__dirname, "/public/download")))
-app.use('/public/download', express.static(path.join(__dirname, "/public/download")))
+app.use('/download', express.static(path.join(__dirname, process.env.DOWNLOAD_DIR)))
 app.use("/upload", express.static(process.env.UPLOAD_DIR))
 
 // adding routes
