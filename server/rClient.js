@@ -23,7 +23,12 @@ const getChannel = async () => {
 
 
 // TODO: accept cb to handle full buffer case instead of rejecting
-const queueImage = async (inputPath, outputPath) => {
+/**
+ * 
+ * @param {string} orignalImageURL The worker will use this URL to get the image for processing
+ * @param {string} uploadTo After processing, The worker upload the result image to this URL
+ */
+const queueImage = async (orignalImageURL, uploadTo) => {
     payload = JSON.stringify({
         inputPath: inputPath,
         outputPath: outputPath
