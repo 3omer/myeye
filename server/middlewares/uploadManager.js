@@ -22,12 +22,18 @@ const isImageExt = (ext) => imageExt.includes(ext)
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        // if the request from the worker save the image to downloads
+        if (req.worker) {
+            return cb(null, process.env.DOWNLOAD_DIR)
+        }
         cb(null, uploadDir)
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname)
         if (isImageExt(ext)) {
-            // console.log(newFileName(ext))
+            if (req.worker) {
+                return cb(null, file.originalname)
+            }
             cb(null, newFileName(ext))
         } else {
             cb(new Error('Unsupported file extension'))
