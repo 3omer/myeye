@@ -1,10 +1,4 @@
 build:
   docker:
-    web: Dockerfile
-
-run:
-  web: node app.js & python ../worker/main.py
-  worker:
-    command:
-      - python ../worker/main.py
-    image: web
+    web: ./server/Dockerfile
+    worker: ./worker/Dockerfile
