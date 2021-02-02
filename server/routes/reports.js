@@ -53,10 +53,12 @@ router.get("/api/v1/result", (req, res) => {
 })
 
 router.put("/webhooks/notify-progress", (req, res, next) => {
-    // TODO: the worker call this endpoint to notify image is ready or failed
-    const requestId = req.body.requestId
-    const progress = req.body.progress
-    const erros = req.body.progress.erros
+    req.worker = true
+    next()
+}, uploadImage, (req, res, next) => {
+    // const requestId = req.body.requestId
+    // const progress = req.body.progress //TODO
+    // const erros = req.body.progress.erros
     res.json({ msg: "OK" })
 })
 
