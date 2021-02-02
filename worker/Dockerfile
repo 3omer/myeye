@@ -1,7 +1,7 @@
 FROM python:3.6
 
-# RUN apt-get update
-# RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 # python dep
 # RUN pip3 install --upgrade pip setuptools virtualenv
