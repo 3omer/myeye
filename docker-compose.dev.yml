@@ -17,13 +17,13 @@ services:
     environment:
       - PORT=8000
       - NODE_ENV=development
-      - UPLOAD_DIR= upload/
-      - DOWNLOAD_DIR= download/
+      - UPLOAD_DIR=upload/
+      - DOWNLOAD_DIR=download/
       - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
       - AMQP_PASSWORD=guest
       - QUEUE_NAME=object_detection
     ports:
       - "8000:8000"
     volumes:
-      - ./:/usr/app/server  
+      - ./server:/usr/app/server
     command: npm run dev
