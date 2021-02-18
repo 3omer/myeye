@@ -1,0 +1,6 @@
+# Define variables and save the file as '.env'
+
+#Rabbitmq creds
+AMQP_URL=amqp://guest:guest@localhost:5672/
+AMQP_PASSWORD=guest
+QUEUE_NAME=object_detection

@@ -1,0 +1,13 @@
+PORT=8000
+NODE_ENV=production
+
+# where to store uploaded images
+UPLOAD_DIR= upload/
+
+# where to store processed images
+DOWNLOAD_DIR= download/
+
+QUEUE_NAME=object_detection
+#Rabbitmq cred
+AMQP_URL=amqp://guest:guest@rabbitmq:5672/
+AMQP_PASSWORD=guest
