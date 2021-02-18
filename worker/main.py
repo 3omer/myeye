@@ -5,7 +5,7 @@ import requests
 from dotenv import load_dotenv
 from ObjectDetector import RetinaObjectDetector
 
-load_dotenv()
+# load_dotenv()
 AMQP_URL = os.environ.get("AMQP_URL")
 
 # where to save images before processing
