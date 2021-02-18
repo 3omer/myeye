@@ -27,3 +27,13 @@ services:
     volumes:
       - ./server:/usr/app/server
     command: npm run dev
+  
+  python-worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    environment:
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
+      - AMQP_PASSWORD=guest
+      - QUEUE_NAME=object_detection
+    command: python main.py
