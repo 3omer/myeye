@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6-alpine
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
@@ -6,7 +6,7 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 # python dep
 # RUN pip3 install --upgrade pip setuptools virtualenv
 
-WORKDIR /opt/app/worker
+WORKDIR /usr/app/worker
 ADD https://tf.novaal.de/westmere/tensorflow-2.4.0-cp36-cp36m-linux_x86_64.whl .
 
 RUN pip3 install ./tensor*.whl

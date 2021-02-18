@@ -1,0 +1,29 @@
+version: '3'
+services:
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    # volumes:
+    #   - ./data:/var/lib/rabbitmq
+    #   - ./data/logs:/var/log/rabbitmq
+    hostname: rabbit
+
+  node-application:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8000
+      - NODE_ENV=development
+      - UPLOAD_DIR= upload/
+      - DOWNLOAD_DIR= download/
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
+      - AMQP_PASSWORD=guest
+      - QUEUE_NAME=object_detection
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/usr/app/server  
+    command: npm run dev
