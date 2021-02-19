@@ -1,4 +1,4 @@
-// require("dotenv").config()
+require("dotenv").config('.sample-env')
 const path = require('path')
 const fs = require("fs")
 const express = require("express")
