@@ -1,6 +1,6 @@
 **/.vscode/**
 worker/venv
-.env
+.env-prod
 node_modules
 *.h5
 __pycache__/
