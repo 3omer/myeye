@@ -5,7 +5,7 @@ import requests
 from dotenv import load_dotenv
 from ObjectDetector import RetinaObjectDetector
 
-# load_dotenv()
+load_dotenv()
 AMQP_URL = os.environ.get("AMQP_URL")
 
 # where to save images before processing
@@ -64,8 +64,7 @@ if __name__ == "__main__":
     
     if not AMQP_URL:
         raise ValueError("Ensure you defined AMQP_URL as env key")
-    print(AMQP_URL[1:5])
-    print("AMQP Connecting .. .")
+    print("AMQP Connecting .. .", AMQP_URL)
     connection = pika.BlockingConnection(
         pika.connection.URLParameters(AMQP_URL)
         )
