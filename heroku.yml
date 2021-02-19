@@ -2,3 +2,7 @@ build:
   docker:
     web: ./server/Dockerfile
     worker: ./worker/Dockerfile
+
+run:
+  web: node app.js
+  worker: python main.py
