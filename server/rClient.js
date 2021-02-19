@@ -1,9 +1,9 @@
-require("dotenv").config()
 const QUEUE_NAME = process.env.QUEUE_NAME
 const q = QUEUE_NAME
 
 const amqlib = require('amqplib')
 let channel
+console.log('RabbitMq: Connecton to:', process.env.AMQP_URL);
 
 const getChannel = async () => {
     return new Promise((resolve, reject) => {
