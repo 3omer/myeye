@@ -13,7 +13,7 @@ const sendToImageQueue = require("../rClient")
 function constructImageMeta(host, filename) {
     return {
         originalImageURL: 'http://' + path.join(host, 'upload', filename),
-        resultImageURL: 'http://' + path.join(host, 'download', filename),
+        resultImageURL: 'http://' + path.join(host, 'download', filename), // here you will find the result-image when the worker finsh
         webhook: 'http://' + host +  '/webhooks/notify-progress'
     }
 }
