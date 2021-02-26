@@ -15,6 +15,7 @@
         <h3>MyEye</h3>
     </div>
     <div id="app" class="container">
+        <div id="msgContainer" class="alert alert-info"></div>
         <div class="m-1 p-1 shadow-sm rounded-3">
             <h3>Upload Image</h3>
             <form id="form" action="" method="POST" class="form">
@@ -22,8 +23,11 @@
                     <label for="image" class="form-label">Choose an image for object detection</label>
                     <input class="form-control" type="file" id="image" multiple>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="submit" class="btn btn-primary">Submit</button>
             </form>
+            <hr>
+            <div id="resultContainer" class="mx-auto text-center">
+            </div>
         </div>
     </div>
 
@@ -50,11 +54,70 @@
 
         // selectors
         const form = document.getElementById("form");
+        const submit = document.getElementById("submit");
+        const resultContainer = document.getElementById("resultContainer");
+        const msgContainer = document.getElementById("msgContainer");
+
+        // handle submission
         form.onsubmit = function (ev) {
             ev.preventDefault();
+            submit.setAttribute("disabled", true);
             console.log("submitting .. .")
-            submitImage().then(res => console.log(res))
+            submitImage().then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    displayMsg(data.msg);
+                    getImage(data.resultURL);
+                })
                 .catch(error => console.error(error))
+        }
+
+        // utils
+        function displayMsg(msg) {
+            msgContainer.innerText = msg;
+        }
+
+        function createImageElem(src) {
+            const img = document.createElement('img');
+            img.setAttribute('src', src);
+            img.setAttribute("class", "img-fluid");
+            img.setAttribute("class", "w-75");
+
+            return img;
+        }
+
+        // append result-image
+        function displayResult(img) {
+            msgContainer.innerText = "DONE"
+            resultContainer.appendChild(img)
+        }
+
+        // fetch result url
+        function getResultImage(resultImageUrl) {
+            // check if the processed image PHYSACALY there
+            return fetch(resultImageUrl).then(res => {
+                console.log(res);
+                if (res.status == 404) return false
+                if (res.status == 200) return resultImageUrl
+            })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
+
+        // pulling timer
+        let timerID = 0;
+        const SECONDS = 4000;
+        function getImage(imageURL) {
+            timerID = setInterval(() => {
+                getResultImage(imageURL).then(result => {
+                    if (result) {
+                        clearInterval(timerID)
+                        const image = createImageElem(imageURL);
+                        displayResult(image);
+                    }
+                })
+            }, SECONDS)
         }
     </script>
 </body>
