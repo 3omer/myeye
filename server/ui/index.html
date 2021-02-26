@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>MyEye</title>
+</head>
+
+<body>
+    <div class="bg-primary m-2 p-2 text-white text-center">
+        <h3>MyEye</h3>
+    </div>
+    <div id="app" class="container">
+        <div class="m-1 p-1 shadow-sm rounded-3">
+            <h3>Upload Image</h3>
+            <form id="form" action="" method="POST" class="form">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Choose an image for object detection</label>
+                    <input class="form-control" type="file" id="image" multiple>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API calls
+        const submitImage = () => {
+            const imageInput = document.getElementById('image').files[0];
+
+            if (!imageInput) {
+                console.error("Error: no file selected");
+                return
+            }
+
+            const formData = new FormData();
+            formData.append('image', imageInput);
+            const options = {
+                method: 'POST',
+                body: formData,
+            };
+            console.log('uploading..', formData);
+
+            return fetch('/api/v1/request', options);
+        }
+
+        // selectors
+        const form = document.getElementById("form");
+        form.onsubmit = function (ev) {
+            ev.preventDefault();
+            console.log("submitting .. .")
+            submitImage().then(res => console.log(res))
+                .catch(error => console.error(error))
+        }
+    </script>
+</body>
+
+</html>
