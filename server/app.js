@@ -1,4 +1,4 @@
-require("dotenv").config('.sample-env')
+require("dotenv").config('.env')
 const path = require('path')
 const fs = require("fs")
 const express = require("express")
@@ -25,6 +25,11 @@ if (!fs.existsSync(DOWNLOAD_DIR)) {
 // setting static directory
 app.use('/download', express.static(path.join(__dirname, process.env.DOWNLOAD_DIR)))
 app.use("/upload", express.static(process.env.UPLOAD_DIR))
+
+// home
+app.get('/', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '/ui/index.html'))
+})
 
 // adding routes
 app.use(reportsRouter)
