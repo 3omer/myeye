@@ -11,10 +11,10 @@
 </head>
 
 <body>
-    <div class="bg-primary m-2 p-2 text-white text-center">
-        <h3>MyEye</h3>
+    <div class="bg-primary mb-1 p-2 text-white text-center">
+        <h3>S E E 4 M E E</h3>
     </div>
-    <div id="app" class="container">
+    <div id="app" class="container vh-100">
         <div id="msgContainer" class="alert alert-info"></div>
         <div class="m-1 p-1 shadow-sm rounded-3">
             <h3>Upload Image</h3>
@@ -27,6 +27,12 @@
             </form>
             <hr>
             <div id="resultContainer" class="mx-auto text-center">
+                <div id="spinner" class="spinner-border text-info p-4" hidden>
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div>
+                  	<button id="reload" class="btn btn-primary" hidden="">Reload</button>
+                  </div>
             </div>
         </div>
     </div>
@@ -57,6 +63,8 @@
         const submit = document.getElementById("submit");
         const resultContainer = document.getElementById("resultContainer");
         const msgContainer = document.getElementById("msgContainer");
+        const spinner = document.getElementById("spinner");
+        const btnReload = document.getElementById("reload");
 
         // handle submission
         form.onsubmit = function (ev) {
@@ -66,10 +74,16 @@
             submitImage().then(res => res.json())
                 .then(data => {
                     console.log(data);
+                    displaySpinner();
                     displayMsg(data.msg);
                     getImage(data.resultURL);
                 })
                 .catch(error => console.error(error))
+        }
+
+        // handle btnRelaod
+        btnReload.onclick = function(ev) {
+        	document.location.reload();
         }
 
         // utils
@@ -80,8 +94,7 @@
         function createImageElem(src) {
             const img = document.createElement('img');
             img.setAttribute('src', src);
-            img.setAttribute("class", "img-fluid");
-            img.setAttribute("class", "w-75");
+            img.setAttribute("class", "img-fluid p-1");
 
             return img;
         }
@@ -114,10 +127,21 @@
                     if (result) {
                         clearInterval(timerID)
                         const image = createImageElem(imageURL);
+                        hideSpinner();
                         displayResult(image);
+                        btnReload.hidden = false;
                     }
                 })
             }, SECONDS)
+        }
+
+        function displaySpinner() {
+            spinner.hidden = false;
+            
+        }
+
+        function hideSpinner() {
+            spinner.hidden = true;
         }
     </script>
 </body>
