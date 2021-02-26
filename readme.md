@@ -12,3 +12,22 @@ Practicing Async communication between services by bulding objects detection ser
 > docker-compose -f docker-copmose.dev.yml build
 
 > docker-compose -f docker-compose.dev.yml up
+
+## With out docker
+### The server:
+
+> cd ./server
+
+> npm install
+
+> npm run dev
+
+
+### The worker:
+> cd ./worker
+
+> create and activate your venv
+
+> pip install -r requirements.txt
+
+> python main.py
