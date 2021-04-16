@@ -3,6 +3,7 @@ worker/venv
 .env-prod
 node_modules
 *.h5
+*.whl
 __pycache__/
 */send.py
 */consumeQu.py

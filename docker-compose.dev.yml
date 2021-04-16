@@ -10,7 +10,7 @@ services:
     #   - ./data/logs:/var/log/rabbitmq
     hostname: rabbit
 
-  node-application:
+  web:
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -33,6 +33,7 @@ services:
       context: ./worker
       dockerfile: Dockerfile
     environment:
+      - WEB_HOST=web
       - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
       - AMQP_PASSWORD=guest
       - QUEUE_NAME=object_detection
