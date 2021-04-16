@@ -20,8 +20,12 @@ if not os.path.isdir(OUTPUT_DIR):
     os.mkdir(OUTPUT_DIR)
 
 def get_image(imageURL, filename):
-    # filename = imageURL.split('/')[-1]
     image_path = os.path.join(INPUT_DIR, filename)
+
+    # if the web-service is a container then localhost is not accessable
+    imageURL = imageURL.replace("localhost", os.environ.get("WEB_HOST"))
+
+    print("Dowloading image from: ", imageURL)
     image = requests.get(imageURL, stream=True).content
 
     with open(image_path, 'wb+') as handler:
@@ -31,6 +35,8 @@ def get_image(imageURL, filename):
 
 def upload_image(url, image_path):
     files = {'image': open(image_path, 'rb')}
+    url = url.replace("localhost", os.environ.get("WEB_HOST"))
+    print("Uploading the result image to: ", url)
     requests.put(url, files=files)
 
 detector = RetinaObjectDetector()
@@ -70,6 +76,8 @@ if __name__ == "__main__":
         )
 
     channel = connection.channel()
+    # create the queue if it doenst exist
+    channel.queue_declare('object_detection', passive=True, durable=True)
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume('object_detection', on_message)
     print("AMQP is Connected")
